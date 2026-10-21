@@ -1,0 +1,6 @@
+@ApniDukan.API_HostAddress = http://localhost:5258
+
+GET {{ApniDukan.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
