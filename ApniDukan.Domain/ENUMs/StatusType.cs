@@ -10,7 +10,9 @@ namespace ApniDukan.Domain.ENUMs
     {
         Todo = 1,
         InProgress = 2,
-        Completed = 3,
-        Cancelled = 4,
+        ReadyToPickUp = 3,
+        Completed = 4,
+        Cancelled = 5,
+        Rejected = 6,
     }
 }
