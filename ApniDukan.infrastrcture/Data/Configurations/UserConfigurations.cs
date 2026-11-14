@@ -59,9 +59,13 @@ namespace ApniDukan.Infrastrcture.Data.Configurations
                 .HasMaxLength(500)
                 .IsRequired(false);
 
-            builder.Property(u => u.DocumentImage)
+            builder.Property(u => u.Document)
                 .HasConversion<string>()
                 .IsRequired();
+
+            builder.Property(u => u.DocumentImage)
+                .HasMaxLength(500)
+                .IsRequired(false);
 
             builder.Property(x => x.IsActive)
                 .HasDefaultValue(true)
