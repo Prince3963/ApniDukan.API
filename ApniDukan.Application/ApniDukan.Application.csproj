@@ -14,4 +14,9 @@
     <ProjectReference Include="..\ApniDukan.Domain\ApniDukan.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="IServices\" />
+  </ItemGroup>
+
 </Project>
