@@ -6,10 +6,10 @@ namespace ApniDukan.API
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApiDI(this IServiceCollection services)
+        public static IServiceCollection AddApiDI(this IServiceCollection services, IConfiguration configuration)
         {
             services
-                .AddInfrastructureDI()
+                .AddInfrastructureDI(configuration)
                 .AddApplicationDI()
                 .AddDomainDI();
             return services;
