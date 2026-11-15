@@ -1,9 +1,8 @@
 ﻿using ApniDukan.Domain.Models;
-using ApniDukan.Infrastrcture.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ApniDukan.Infrastrcture.Data
+namespace ApniDukan.Infrastrcture.Data.Configurations
 {
     public class OrderDetailsConfiguration : IEntityTypeConfiguration<OrderDetails>
     {
