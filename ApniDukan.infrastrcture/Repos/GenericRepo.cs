@@ -12,12 +12,12 @@ namespace ApniDukan.Infrastrcture.Repo
         public GenericRepo(AppDbContext dbContext, DbSet<T> dbSet)
         {
             this.dbContext = dbContext;
-            this.dbSet = dbSet;
+            this.dbSet = dbContext.Set<T>();
         }
 
         public async Task<IReadOnlyList<T>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await dbSet.ToListAsync(cancellationToken);
+            return await dbSet.AsNoTracking().ToListAsync(cancellationToken);
         }
 
         public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
@@ -27,20 +27,41 @@ namespace ApniDukan.Infrastrcture.Repo
             return entity;
         }
 
-        public Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var existEntity = await dbSet.FindAsync(new object[] { id }, cancellationToken);
+            if (existEntity.IsDeleted || existEntity == null)
+            {
+                return false;
+            }
+
+            existEntity.IsDeleted = true;
+            existEntity.DeletedAt = DateTime.UtcNow;
+
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            return true;            
         }
 
 
-        public Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var existEntity = await dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            if (existEntity.IsDeleted || existEntity == null)
+            {
+                return null;
+            }
+
+            return existEntity;
         }
 
-        public void Update(T entity)
-        {
-            throw new NotImplementedException();
-        }
+        //public void Update(T entity, CancellationToken cancellationToken = default)
+        //{
+        //    var existEntity = dbSet.Find(new object[] { entity.Id });
+        //    if (existEntity.IsDeleted && existEntity == null)
+        //    {
+        //        return null;
+        //    }
+        //}
     }
 }
