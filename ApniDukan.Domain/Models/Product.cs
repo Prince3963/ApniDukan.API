@@ -13,12 +13,12 @@ namespace ApniDukan.Domain.Models
         public bool IsActive { get; set; } = true;
 
         //Foreign Key
-        public int UserId { get; set; }
+        public int ShopId { get; set; }
         public int CategoryId { get; set; }
 
         //Navigation property
-        public User? User { get; set; }
-        public Category? Categories{ get; set; } 
-        public ICollection<OrderDetails>? OrderDetails { get; set; } = new List<OrderDetails>();
+        public Shop? Shops { get; set; }
+        public Category? Categories { get; set; } 
+        public ICollection<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
     }
 }

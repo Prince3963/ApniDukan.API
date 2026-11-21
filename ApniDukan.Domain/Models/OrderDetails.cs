@@ -5,7 +5,7 @@
         public decimal Quantity { get; set; }
 
         public decimal UnitPrice { get; set; }
-        public decimal discount { get; set; }
+        public decimal Discount { get; set; }
         public decimal BillAmount { get; set; }
 
         //Foreign Key
@@ -13,7 +13,7 @@
         public int ProductId { get; set; }
 
         //Navigation Property
-        public Order? Order { get; set; }
+        public Order? Orders { get; set; }
         public Product? Products { get; set; }
     }
 }

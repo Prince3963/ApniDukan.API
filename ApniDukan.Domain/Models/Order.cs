@@ -9,9 +9,12 @@ namespace ApniDukan.Domain.Models
 
         //Foreing Key
         public int UserID { get; set; }
+        public int ShopId { get; set; }
+
 
         //Navigation property
-        public User? Users { get; set; }
+        public User? Customers { get; set; }
+        public Shop? Shops { get; set; }
         public ICollection<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
     }
 }

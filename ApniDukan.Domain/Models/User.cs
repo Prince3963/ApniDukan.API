@@ -4,9 +4,10 @@ namespace ApniDukan.Domain.Models
 {
     public class User : GenericEntity
     {
+        public UserReole Role { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
         public string PhoneNumber { get; set; }
         public string? AlternativeNumber { get; set; }
         public string? RoomMatesNumber { get; set; }
@@ -19,7 +20,7 @@ namespace ApniDukan.Domain.Models
         public string? DocumentImage { get; set; }
         public bool IsActive { get; set; } = true;
 
-        public ICollection<Product> Products { get; set; } = new List<Product>();
+        public ICollection<Shop> Shops { get; set; } = new List<Shop>();
         public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }
