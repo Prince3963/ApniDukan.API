@@ -32,7 +32,7 @@ namespace ApniDukan.Infrastrcture.Repo
         public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
             var existEntity = await dbSet.FindAsync(new object[] { id }, cancellationToken);
-            if (existEntity.IsDeleted || existEntity == null)
+            if (existEntity == null || existEntity.IsDeleted)
             {
                 return false;
             }

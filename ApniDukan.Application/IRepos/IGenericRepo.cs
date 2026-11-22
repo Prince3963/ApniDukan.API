@@ -1,4 +1,5 @@
-﻿using ApniDukan.Domain.Models;
+﻿using System.Linq.Expressions;
+using ApniDukan.Domain.Models;
 
 namespace ApniDukan.Application.RepoInterface
 {
@@ -10,8 +11,9 @@ namespace ApniDukan.Application.RepoInterface
 
         Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
 
-        //void Update(T entity, CancellationToken cancellationToken = default);
+        Task<T> Update(T entity, CancellationToken cancellationToken = default);
 
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
     }
 }
