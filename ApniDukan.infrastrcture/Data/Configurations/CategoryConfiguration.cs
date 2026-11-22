@@ -20,12 +20,19 @@ namespace ApniDukan.Infrastrcture.Data.Configurations
                 .HasMaxLength(250)
                 .IsRequired(false);
 
+            // Shop (One) -> Categories (Many)
+            builder.HasOne(c => c.Shops)
+                .WithMany(s => s.Categories)
+                .HasForeignKey(c => c.ShopId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             //Relationship(One to Many)
             builder.HasMany(c => c.Products)
                 .WithOne(p => p.Categories)
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasIndex(s => s.ShopId);
 
         }
     }

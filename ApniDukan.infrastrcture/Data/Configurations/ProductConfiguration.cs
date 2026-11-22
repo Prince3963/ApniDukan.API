@@ -46,15 +46,21 @@ namespace ApniDukan.Infrastrcture.Data.Configurations
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Product (One) -> OrderDetails (Many)
             builder.HasMany(p => p.OrderDetails)
                 .WithOne(od => od.Products)
                 .HasForeignKey(od => od.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.User)
-                .WithMany(u => u.Products)
-                .HasForeignKey(p => p.UserId)
+            // Shop (One) -> Products (Many)
+            builder.HasOne(p => p.Shops)
+                .WithMany(s => s.Products)
+                .HasForeignKey(p => p.ShopId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(p => p.ShopId);
+
+            builder.HasIndex(p => p.CategoryId);
 
             builder.HasIndex(p => p.IsActive);
         }

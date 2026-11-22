@@ -16,6 +16,7 @@ namespace ApniDukan.Infrastrcture.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
+        public DbSet<Shop> Shops { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

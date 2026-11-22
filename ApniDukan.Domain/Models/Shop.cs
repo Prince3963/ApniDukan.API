@@ -8,7 +8,7 @@ namespace ApniDukan.Domain.Models
 {
     public class Shop : GenericEntity
     {
-        public string ShopName { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
 

@@ -1,4 +1,6 @@
-﻿using ApniDukan.Application.RepoInterface;
+﻿using System.Linq.Expressions;
+using System.Threading.Tasks;
+using ApniDukan.Application.RepoInterface;
 using ApniDukan.Domain.Models;
 using ApniDukan.Infrastrcture.Data;
 using Microsoft.EntityFrameworkCore;
@@ -55,13 +57,17 @@ namespace ApniDukan.Infrastrcture.Repo
             return existEntity;
         }
 
-        //public void Update(T entity, CancellationToken cancellationToken = default)
-        //{
-        //    var existEntity = dbSet.Find(new object[] { entity.Id });
-        //    if (existEntity.IsDeleted && existEntity == null)
-        //    {
-        //        return null;
-        //    }
-        //}
+        public async Task<T> Update(T entity, CancellationToken cancellationToken = default)
+        {
+            dbSet.Update(entity);
+            await dbContext.SaveChangesAsync(cancellationToken);
+            return entity;
+        }
+
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+        {
+            var itExist = await dbSet.AsNoTracking().AnyAsync(predicate, cancellationToken);
+            return itExist;
+        }
     }
 }

@@ -50,10 +50,15 @@ namespace ApniDukan.Infrastrcture.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("ShopId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("Category", (string)null);
                 });
@@ -77,6 +82,9 @@ namespace ApniDukan.Infrastrcture.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
+                    b.Property<int>("ShopId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -95,6 +103,8 @@ namespace ApniDukan.Infrastrcture.Migrations
 
                     b.HasIndex("CreatedAt");
 
+                    b.HasIndex("ShopId");
+
                     b.HasIndex("Status");
 
                     b.HasIndex("UserID");
@@ -111,14 +121,20 @@ namespace ApniDukan.Infrastrcture.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("BillAmount")
-                        .HasPrecision(18, 3)
-                        .HasColumnType("decimal(18,3)");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Discount")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValue(0m);
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -136,17 +152,11 @@ namespace ApniDukan.Infrastrcture.Migrations
                         .HasColumnType("decimal(18,3)");
 
                     b.Property<decimal>("UnitPrice")
-                        .HasPrecision(18, 3)
-                        .HasColumnType("decimal(18,3)");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal>("discount")
-                        .ValueGeneratedOnAdd()
-                        .HasPrecision(18, 3)
-                        .HasColumnType("decimal(18,3)")
-                        .HasDefaultValue(0m);
 
                     b.HasKey("Id");
 
@@ -205,6 +215,9 @@ namespace ApniDukan.Infrastrcture.Migrations
                         .HasPrecision(18, 3)
                         .HasColumnType("decimal(18,3)");
 
+                    b.Property<int>("ShopId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Unit")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -212,18 +225,85 @@ namespace ApniDukan.Infrastrcture.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("IsActive");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ShopId");
 
                     b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("ApniDukan.Domain.Models.Shop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsOpen")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<int>("ShopOwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsActive");
+
+                    b.HasIndex("IsOpen");
+
+                    b.HasIndex("ShopOwnerId");
+
+                    b.ToTable("Shops", (string)null);
                 });
 
             modelBuilder.Entity("ApniDukan.Domain.Models.User", b =>
@@ -277,7 +357,7 @@ namespace ApniDukan.Infrastrcture.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -294,6 +374,10 @@ namespace ApniDukan.Infrastrcture.Migrations
                     b.Property<string>("ProfileImage")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoomMatesAlternativeNumber")
                         .HasMaxLength(15)
@@ -318,20 +402,39 @@ namespace ApniDukan.Infrastrcture.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("ApniDukan.Domain.Models.Category", b =>
+                {
+                    b.HasOne("ApniDukan.Domain.Models.Shop", "Shops")
+                        .WithMany("Categories")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Shops");
+                });
+
             modelBuilder.Entity("ApniDukan.Domain.Models.Order", b =>
                 {
-                    b.HasOne("ApniDukan.Domain.Models.User", "Users")
+                    b.HasOne("ApniDukan.Domain.Models.Shop", "Shops")
+                        .WithMany("Orders")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ApniDukan.Domain.Models.User", "Customers")
                         .WithMany("Orders")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Users");
+                    b.Navigation("Customers");
+
+                    b.Navigation("Shops");
                 });
 
             modelBuilder.Entity("ApniDukan.Domain.Models.OrderDetails", b =>
                 {
-                    b.HasOne("ApniDukan.Domain.Models.Order", "Order")
+                    b.HasOne("ApniDukan.Domain.Models.Order", "Orders")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -343,7 +446,7 @@ namespace ApniDukan.Infrastrcture.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Order");
+                    b.Navigation("Orders");
 
                     b.Navigation("Products");
                 });
@@ -356,15 +459,26 @@ namespace ApniDukan.Infrastrcture.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ApniDukan.Domain.Models.User", "User")
+                    b.HasOne("ApniDukan.Domain.Models.Shop", "Shops")
                         .WithMany("Products")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Categories");
 
-                    b.Navigation("User");
+                    b.Navigation("Shops");
+                });
+
+            modelBuilder.Entity("ApniDukan.Domain.Models.Shop", b =>
+                {
+                    b.HasOne("ApniDukan.Domain.Models.User", "ShopOwner")
+                        .WithMany("Shops")
+                        .HasForeignKey("ShopOwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ShopOwner");
                 });
 
             modelBuilder.Entity("ApniDukan.Domain.Models.Category", b =>
@@ -382,11 +496,20 @@ namespace ApniDukan.Infrastrcture.Migrations
                     b.Navigation("OrderDetails");
                 });
 
+            modelBuilder.Entity("ApniDukan.Domain.Models.Shop", b =>
+                {
+                    b.Navigation("Categories");
+
+                    b.Navigation("Orders");
+
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("ApniDukan.Domain.Models.User", b =>
                 {
                     b.Navigation("Orders");
 
-                    b.Navigation("Products");
+                    b.Navigation("Shops");
                 });
 #pragma warning restore 612, 618
         }

@@ -21,17 +21,26 @@ namespace ApniDukan.Infrastrcture.Data.Configurations
                 .IsRequired();
 
             //Relationship (One To Manry)
-            builder.HasOne(o => o.Users)
+            builder.HasOne(o => o.Customers)
                 .WithMany(u => u.Orders)
                 .HasForeignKey(o => o.UserID)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Shop (One) -> Orders (Many)
+            builder.HasOne(o => o.Shops)
+                .WithMany(s => s.Orders)
+                .HasForeignKey(o => o.ShopId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Order (One) -> OrderDetails (Many)
             builder.HasMany(o => o.OrderDetails)
-                .WithOne(od => od.Order)
+                .WithOne(od => od.Orders)
                 .HasForeignKey(od => od.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasIndex(x => x.UserID);
+
+            builder.HasIndex(o => o.ShopId);
 
             builder.HasIndex(x => x.Status);
 

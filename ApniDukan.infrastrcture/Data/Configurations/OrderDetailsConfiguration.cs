@@ -17,24 +17,25 @@ namespace ApniDukan.Infrastrcture.Data.Configurations
                 .IsRequired();
 
             builder.Property(od => od.UnitPrice)
-                .HasPrecision(18, 3)
+                .HasPrecision(18, 2)
                 .IsRequired();
 
-            builder.Property(od => od.discount)
-                .HasPrecision(18, 3)
+            builder.Property(od => od.Discount)
+                .HasPrecision(18, 2)
                 .HasDefaultValue(0)
                 .IsRequired();
 
             builder.Property(od => od.BillAmount)
-                .HasPrecision(18, 3)
+                .HasPrecision(18, 2)
                 .IsRequired();
 
-            builder.HasOne(x => x.Order)
-           .WithMany(x => x.OrderDetails)
-           .HasForeignKey(x => x.OrderId)
-           .OnDelete(DeleteBehavior.Cascade);
+            // Order (One) -> OrderDetails (Many)
+            builder.HasOne(x => x.Orders)
+                .WithMany(x => x.OrderDetails)
+                .HasForeignKey(x => x.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Product (1) -> OrderDetails (Many)
+            // Product (One) -> OrderDetails (Many)
             builder.HasOne(x => x.Products)
                 .WithMany(x => x.OrderDetails)
                 .HasForeignKey(x => x.ProductId)

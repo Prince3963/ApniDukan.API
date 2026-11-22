@@ -12,6 +12,10 @@ namespace ApniDukan.Infrastrcture.Data.Configurations
 
             builder.ConfigureGenericEntity();
 
+            builder.Property(u => u.Role)
+                .HasConversion<string>()
+                .IsRequired();
+
             builder.Property(u => u.Name)
                 .HasMaxLength(100)
                 .IsRequired();
@@ -23,7 +27,7 @@ namespace ApniDukan.Infrastrcture.Data.Configurations
             builder.HasIndex(u => u.Email)
                 .IsUnique();
 
-            builder.Property(u => u.Password)
+            builder.Property(u => u.PasswordHash)
                 .HasMaxLength(500)
                 .IsRequired();
 
@@ -73,8 +77,14 @@ namespace ApniDukan.Infrastrcture.Data.Configurations
 
             //Relationship (one to many)
             builder.HasMany(u => u.Orders)
-                .WithOne(o => o.Users)
+                .WithOne(o => o.Customers)
                 .HasForeignKey(o => o.UserID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // User (One) -> Shops (Many)
+            builder.HasMany(u => u.Shops)
+                .WithOne(s => s.ShopOwner)
+                .HasForeignKey(s => s.ShopOwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
