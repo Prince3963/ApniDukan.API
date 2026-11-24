@@ -11,7 +11,7 @@ namespace ApniDukan.Infrastrcture.Repo
     {
         private readonly AppDbContext dbContext;
         private readonly DbSet<T> dbSet;
-        public GenericRepo(AppDbContext dbContext, DbSet<T> dbSet)
+        public GenericRepo(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
             this.dbSet = dbContext.Set<T>();

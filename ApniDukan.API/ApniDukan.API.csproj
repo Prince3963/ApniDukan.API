@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ApniDukan.Application\ApniDukan.Application.csproj" />
     <ProjectReference Include="..\ApniDukan.infrastrcture\ApniDukan.Infrastrcture.csproj" />
   </ItemGroup>

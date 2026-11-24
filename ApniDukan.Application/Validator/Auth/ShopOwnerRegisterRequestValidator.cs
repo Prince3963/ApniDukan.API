@@ -67,5 +67,4 @@ namespace ApniDukan.Application.Validator.Auth
                        uri.Scheme == Uri.UriSchemeHttps);
         }
     }
-    }
 }
